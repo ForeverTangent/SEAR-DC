@@ -12,6 +12,12 @@
 		31E454401F80140E00CFC4E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31E4543E1F80140E00CFC4E3 /* Main.storyboard */; };
 		31E454421F80140E00CFC4E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31E454411F80140E00CFC4E3 /* Assets.xcassets */; };
 		31E454451F80140E00CFC4E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31E454431F80140E00CFC4E3 /* LaunchScreen.storyboard */; };
+		31E4544E1F80229D00CFC4E3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E4544D1F80229D00CFC4E3 /* AVFoundation.framework */; };
+		31E454501F8022A200CFC4E3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E4544F1F8022A200CFC4E3 /* Accelerate.framework */; };
+		31E454521F8022A700CFC4E3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E454511F8022A700CFC4E3 /* ImageIO.framework */; };
+		31E454541F8022BB00CFC4E3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E454531F8022BA00CFC4E3 /* libz.tbd */; };
+		31E454561F8022FD00CFC4E3 /* Structure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E454551F8022FD00CFC4E3 /* Structure.framework */; };
+		31E454581F80231500CFC4E3 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31E454571F80231500CFC4E3 /* ExternalAccessory.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,12 @@
 		31E454411F80140E00CFC4E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31E454441F80140E00CFC4E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31E454461F80140E00CFC4E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		31E4544D1F80229D00CFC4E3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		31E4544F1F8022A200CFC4E3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		31E454511F8022A700CFC4E3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		31E454531F8022BA00CFC4E3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		31E454551F8022FD00CFC4E3 /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Structure.framework; path = "../../../SDKs/Structure SDK/Frameworks/Structure.framework"; sourceTree = "<group>"; };
+		31E454571F80231500CFC4E3 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +41,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31E4544E1F80229D00CFC4E3 /* AVFoundation.framework in Frameworks */,
+				31E454501F8022A200CFC4E3 /* Accelerate.framework in Frameworks */,
+				31E454521F8022A700CFC4E3 /* ImageIO.framework in Frameworks */,
+				31E454581F80231500CFC4E3 /* ExternalAccessory.framework in Frameworks */,
+				31E454541F8022BB00CFC4E3 /* libz.tbd in Frameworks */,
+				31E454561F8022FD00CFC4E3 /* Structure.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +58,7 @@
 			children = (
 				31E454391F80140E00CFC4E3 /* SEAR-DC */,
 				31E454381F80140E00CFC4E3 /* Products */,
+				31E4544C1F80229C00CFC4E3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +81,19 @@
 				31E454461F80140E00CFC4E3 /* Info.plist */,
 			);
 			path = "SEAR-DC";
+			sourceTree = "<group>";
+		};
+		31E4544C1F80229C00CFC4E3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				31E454571F80231500CFC4E3 /* ExternalAccessory.framework */,
+				31E454551F8022FD00CFC4E3 /* Structure.framework */,
+				31E454531F8022BA00CFC4E3 /* libz.tbd */,
+				31E454511F8022A700CFC4E3 /* ImageIO.framework */,
+				31E4544F1F8022A200CFC4E3 /* Accelerate.framework */,
+				31E4544D1F80229D00CFC4E3 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

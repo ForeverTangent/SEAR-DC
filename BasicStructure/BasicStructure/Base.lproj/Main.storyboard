@@ -13,7 +13,7 @@
         <!--MainWindow-->
         <scene sceneID="2Sc-pg-PE5">
             <objects>
-                <viewController title="MainWindow" id="Xpi-bd-hWe" sceneMemberID="viewController">
+                <viewController title="MainWindow" id="Xpi-bd-hWe" customClass="MainViewController" customModule="BasicStructure" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MKo-UO-SYj">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,11 +44,8 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dJ5-aa-pN6">
                                                 <rect key="frame" x="191.5" y="0.0" width="435.5" height="297"/>
                                                 <subviews>
-                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oPa-dZ-97b" userLabel="Direction Picker View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="138.5" height="297"/>
-                                                    </pickerView>
-                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KCY-Xt-vpt" userLabel="Number Picker View">
-                                                        <rect key="frame" x="148.5" y="0.0" width="138.5" height="297"/>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oPa-dZ-97b" userLabel="Stair Info Picker View">
+                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="297"/>
                                                     </pickerView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20h-Is-3Bp">
                                                         <rect key="frame" x="297" y="0.0" width="138.5" height="297"/>
@@ -68,10 +65,6 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="oPa-dZ-97b" firstAttribute="width" secondItem="KCY-Xt-vpt" secondAttribute="width" id="dx2-Cm-DAV"/>
-                                                    <constraint firstItem="KCY-Xt-vpt" firstAttribute="width" secondItem="20h-Is-3Bp" secondAttribute="width" id="s43-v6-dEt"/>
-                                                </constraints>
                                             </stackView>
                                         </subviews>
                                     </stackView>
@@ -107,6 +100,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qR0-GT-muO"/>
                     </view>
+                    <connections>
+                        <outlet property="ColorImageView" destination="HfU-ZO-dnt" id="FyV-SX-8J0"/>
+                        <outlet property="DepthImageView" destination="eLL-Vi-GwV" id="B9H-Xq-Sm8"/>
+                        <outlet property="stairsPickerView" destination="oPa-dZ-97b" id="5Ep-qf-Zqi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rRH-IB-niQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

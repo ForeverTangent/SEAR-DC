@@ -156,6 +156,7 @@ class MainViewController: UIViewController,
 			object: nil
 		)
 		
+
 		// Message notification
 		NotificationCenter.default.addObserver(
 			self,

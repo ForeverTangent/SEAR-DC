@@ -71,6 +71,8 @@ class STSensorManagement :
 	Required
 	*/
 	func sensorDidConnect() {
+		BSNotifications.post(message: "sensorDidConnect()")
+		
 		if self.connectAndStartSTSStreaming() {
 			NSLog( "STSensor Streaming" )
 		} else {
@@ -83,29 +85,36 @@ class STSensorManagement :
 	Required
 	*/
 	func sensorDidDisconnect() {
+		BSNotifications.post(message: "sensorDidDisconnect()")
 		self.stopColorCamera()
-		NSLog( "STS Sensor Disconnected" )
+		BSNotifications.post(message: "STS Sensor Disconnected.")
+
 	}
 	
 	/**
 	Required
 	*/
 	func sensorDidStopStreaming(_ reason: STSensorControllerDidStopStreamingReason) {
+		BSNotifications.post(message: "sensorDidStopStreaming()")
 		self.stopColorCamera()
-		NSLog( "STS Sensor Stopped Streaming" )
+		BSNotifications.post(message: "STS Sensor Stopped Streaming.")
+
 	}
 	
 	/**
 	Required
 	*/
 	func sensorDidLeaveLowPowerMode() {
+		BSNotifications.post(message: "sensorDidLeaveLowPowerMode()")
 	}
 	
 	/**
 	Required
 	*/
 	func sensorBatteryNeedsCharging() {
-		NSLog( "Structurem Sensor needs charging" )
+		BSNotifications.post(message: "Structurem Sensor needs charging!")
+
+
 	}
 	
 	/**
@@ -168,17 +177,6 @@ class STSensorManagement :
 	*/
 	func activateSTSensor() {
 		self.tryReconnect()
-	}
-	
-	
-	/**
-	Check if Application became active.
-	*/
-	func appDidBecomeActiveNotification() {
-		if( self.connectAndStartSTSStreaming() ) {
-			NSLog("STSensor Connected and Streaming")
-		}
-		
 	}
 	
 	
@@ -356,10 +354,8 @@ class STSensorManagement :
 				return true
 			} catch let error as NSError {
 				NSLog( error.localizedDescription )
-				
 			}
 		}
-		
 		return false
 	}
 	
@@ -416,8 +412,6 @@ class STSensorManagement :
 	}
 	
 	
-	//MARK TODO: Return the distance array.
-	
 	/**
 	Helper Function to convert Structure's DepthFrames.depthInMillimeters into a something we can use in Swift.
 	Because otherwise it is an Obj-C *Float to a [Float]
@@ -447,12 +441,32 @@ class STSensorManagement :
 	- Parameter depthFrame: The STDepthFrame output from the sensor
 	- Returns: UIImage
 	*/
-	func renderImageFromDepthFrame( _ depthFrame: STDepthFrame) -> UIImage {
+	func renderImageFromDepthFrame( _ depthFrame: STDepthFrame ) -> UIImage {
 		
 		var returnImage : UIImage?
 		
 		if let renderer = self.toRGBA {
 			let pixels = renderer.convertDepthFrame( toRgba: depthFrame )
+			
+			// What to use for the system
+			returnImage = renderImageFromDepthPixels(
+				pixels!,
+				width: Int( renderer.width ),
+				height: Int( renderer.height )
+				)!
+		}
+		
+		return returnImage!
+	}
+	
+	/**
+	*/
+	func renderImageFromDepthFrame() -> UIImage {
+		
+		var returnImage : UIImage?
+		
+		if let renderer = self.toRGBA {
+			let pixels = renderer.convertDepthFrame( toRgba: self.currentDepthFrame )
 			
 			// What to use for the system
 			returnImage = renderImageFromDepthPixels(
@@ -534,6 +548,9 @@ class STSensorManagement :
 		
 		return UIImage( cgImage: image! )
 	}
+	
+	
+	
 	
 	
 	

@@ -17,6 +17,7 @@
 		313A60911F86A18B00A6AF36 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 313A60901F86A18B00A6AF36 /* ExternalAccessory.framework */; };
 		313A60931F86A19400A6AF36 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 313A60921F86A19400A6AF36 /* libz.tbd */; };
 		313A60961F86A24400A6AF36 /* StructureSwift.m in Sources */ = {isa = PBXBuildFile; fileRef = 313A60951F86A24400A6AF36 /* StructureSwift.m */; };
+		3161AE951F8916DD00127A08 /* BSNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3161AE941F8916DD00127A08 /* BSNotifications.swift */; };
 		3185A26C1F86A4A400C259C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3185A26B1F86A4A400C259C9 /* AVFoundation.framework */; };
 		3185A2781F86BD3B00C259C9 /* STSensorManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3185A2771F86BD3B00C259C9 /* STSensorManagement.swift */; };
 		3185A2791F86BE7600C259C9 /* Structure.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3185A2761F86BBCB00C259C9 /* Structure.framework */; };
@@ -36,6 +37,7 @@
 		313A60921F86A19400A6AF36 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		313A60941F86A24300A6AF36 /* BasicStructure-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc.preprocessed; path = "BasicStructure-Bridging-Header.h"; sourceTree = "<group>"; };
 		313A60951F86A24400A6AF36 /* StructureSwift.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = StructureSwift.m; sourceTree = "<group>"; };
+		3161AE941F8916DD00127A08 /* BSNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSNotifications.swift; sourceTree = "<group>"; };
 		3185A26B1F86A4A400C259C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3185A26D1F86A53400C259C9 /* BasicStructure.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BasicStructure.entitlements; sourceTree = "<group>"; };
 		3185A2761F86BBCB00C259C9 /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Structure.framework; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				313A60951F86A24400A6AF36 /* StructureSwift.m */,
 				313A60941F86A24300A6AF36 /* BasicStructure-Bridging-Header.h */,
 				3185A2771F86BD3B00C259C9 /* STSensorManagement.swift */,
+				3161AE941F8916DD00127A08 /* BSNotifications.swift */,
 			);
 			path = BasicStructure;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				313A607B1F86A06E00A6AF36 /* MainViewController.swift in Sources */,
+				3161AE951F8916DD00127A08 /* BSNotifications.swift in Sources */,
 				3185A2781F86BD3B00C259C9 /* STSensorManagement.swift in Sources */,
 				313A60791F86A06E00A6AF36 /* AppDelegate.swift in Sources */,
 				313A60961F86A24400A6AF36 /* StructureSwift.m in Sources */,

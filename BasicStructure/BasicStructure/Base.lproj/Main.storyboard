@@ -103,6 +103,7 @@
                     <connections>
                         <outlet property="ColorImageView" destination="HfU-ZO-dnt" id="FyV-SX-8J0"/>
                         <outlet property="DepthImageView" destination="eLL-Vi-GwV" id="B9H-Xq-Sm8"/>
+                        <outlet property="messageField" destination="xmi-um-f4g" id="kYl-Kv-Vti"/>
                         <outlet property="stairsPickerView" destination="oPa-dZ-97b" id="5Ep-qf-Zqi"/>
                     </connections>
                 </viewController>

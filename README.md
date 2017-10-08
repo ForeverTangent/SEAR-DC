@@ -3,7 +3,7 @@
 
 ---
 
-Thanks in advance to 'agnomen' for his awesome help!
+Thanks in advance to 'agnomen' for his very helpful posts.
 
 This is a really simple Occipital Strucutre project for Swift 4.
 

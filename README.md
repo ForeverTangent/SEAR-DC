@@ -1,5 +1,7 @@
 # SEAR-DC
-SEAR Data Capture
+## SEAR Data Capture
+
+---
 
 Thanks in advance to 'agnomen' for his awesome help!
 

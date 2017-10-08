@@ -7,9 +7,7 @@ Thanks in advance to 'agnomen' for his very helpful posts.
 
 This is a really simple Occipital Strucutre project for Swift 4.
 
-The basic instrucutions to setup an Occipital Struture Project can be found here:
-
-[Guide to setting up a Swift project](https://forums.structure.io/t/guide-to-setting-up-a-swift-project/4020)
+* The basic instrucutions to setup an Occipital Struture Project can be found here: [Guide to setting up a Swift project](https://forums.structure.io/t/guide-to-setting-up-a-swift-project/4020)
 
 When following those instrucutions, something to be aware of is you import the Structure.Framework into your problem.
 

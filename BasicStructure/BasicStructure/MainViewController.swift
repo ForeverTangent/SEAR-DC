@@ -16,11 +16,8 @@ class MainViewController: UIViewController,
 
 	// MARK: CLASS PROPERTIES
 	var stairsPickerDataSource = [["UP", "NA", "DOWN"],["1","2","3","4","5","6","7","8"]];
-	
 	var stSensorManager : STSensorManagement = STSensorManagement()
-	
 	let cmMotionManager = CMMotionManager()
-	
 	var cmMotionManagerTimer : Timer?
 	
 	
@@ -36,6 +33,47 @@ class MainViewController: UIViewController,
 		
 	}
 	
+	// MARK: IBOutputs
+	
+	@IBOutlet weak var ColorImageView: UIImageView!
+	@IBOutlet weak var DepthImageView: UIImageView!
+	@IBOutlet weak var stairsPickerView: UIPickerView!
+	@IBOutlet weak var messageField: UITextField!
+	
+	
+	// MARK: IBActions
+	/**
+	Our Capture Data button
+	https://stackoverflow.com/questions/42365486/writing-to-text-file-in-swift-3
+	https://stackoverflow.com/questions/11776737/how-can-i-access-default-ios-sound-to-set-it-as-notification-sound#11776907
+	
+	*/
+	@IBAction func CaptureButtonTouchUp(_ sender: UIButton) {
+		//
+		
+		let dir = FileManager.default.urls(
+			for: FileManager.SearchPathDirectory.documentDirectory,
+			in: FileManager.SearchPathDomainMask.userDomainMask).first!
+		let fileurl =  dir.appendingPathComponent("log.txt")
+		
+		let string = "\(NSDate())\n"
+		let data = string.data(using: .utf8, allowLossyConversion: false)!
+		
+		if FileManager.default.fileExists(atPath: fileurl.path) {
+			if let fileHandle = try? FileHandle(forUpdating: fileurl) {
+				fileHandle.seekToEndOfFile()
+				fileHandle.write(data)
+				fileHandle.closeFile()
+			}
+		} else {
+			try! data.write(to: fileurl, options: Data.WritingOptions.atomic)
+		}
+		
+		// Default camera sound
+		AudioServicesPlaySystemSound(1108);
+		
+	}
+	
 	
 	// MARK: OVERRIDES
 	
@@ -48,22 +86,7 @@ class MainViewController: UIViewController,
 		
 		self.setupNotifications()
 		
-//		self.cmMotionManager.startAccelerometerUpdates()
-//		self.cmMotionManager.startGyroUpdates()
-//		self.cmMotionManager.startMagnetometerUpdates()
-//		self.cmMotionManager.startDeviceMotionUpdates()
-		
-		
 		self.startDeviceMotion()
-		
-//		self.cmMotionManagerTimer = Timer.scheduledTimer(
-//			timeInterval: 3.0,
-//			target: self,
-//			selector: #selector(MainViewController.attitudeTimerUpdate),
-//			userInfo: nil,
-//			repeats: true
-//		)
-//		self.cmMotionManagerTimer?.fire()
 
 	}
 
@@ -85,14 +108,7 @@ class MainViewController: UIViewController,
 	
 	
 	
-	// MARK: IBOutputs
-	
-	@IBOutlet weak var ColorImageView: UIImageView!
-	@IBOutlet weak var DepthImageView: UIImageView!
-	
-	@IBOutlet weak var stairsPickerView: UIPickerView!
-	
-	@IBOutlet weak var messageField: UITextField!
+
 	
 	
 	// MARK: PROTOCOL FUNCTIONS
@@ -379,7 +395,7 @@ class MainViewController: UIViewController,
 						
 						rollD = -(rollD + 90)
 						
-						NSLog( String(format: "%.2f", rollD ) )
+//						NSLog( String(format: "%.2f", rollD ) )
 						// Use the motion data in your app.
 					}
 				}

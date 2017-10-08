@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreMotion
 
 class MainViewController: UIViewController,
 	UIPickerViewDataSource,
@@ -17,6 +18,10 @@ class MainViewController: UIViewController,
 	var stairsPickerDataSource = [["UP", "NA", "DOWN"],["1","2","3","4","5","6","7","8"]];
 	
 	var stSensorManager : STSensorManagement = STSensorManagement()
+	
+	let cmMotionManager = CMMotionManager()
+	
+	var cmMotionManagerTimer : Timer?
 	
 	
 	// MARK: LAZY PROPERTIES
@@ -43,6 +48,23 @@ class MainViewController: UIViewController,
 		
 		self.setupNotifications()
 		
+//		self.cmMotionManager.startAccelerometerUpdates()
+//		self.cmMotionManager.startGyroUpdates()
+//		self.cmMotionManager.startMagnetometerUpdates()
+//		self.cmMotionManager.startDeviceMotionUpdates()
+		
+		
+		self.startDeviceMotion()
+		
+//		self.cmMotionManagerTimer = Timer.scheduledTimer(
+//			timeInterval: 3.0,
+//			target: self,
+//			selector: #selector(MainViewController.attitudeTimerUpdate),
+//			userInfo: nil,
+//			repeats: true
+//		)
+//		self.cmMotionManagerTimer?.fire()
+
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -52,6 +74,12 @@ class MainViewController: UIViewController,
 	
 	
 	override func viewWillDisappear(_ animated: Bool) {
+		
+//		self.cmMotionManagerTimer?.invalidate()
+		
+		self.cmMotionManager.stopGyroUpdates()
+		self.cmMotionManager.stopDeviceMotionUpdates()
+		
 		self.removeNotifications()
 	}
 	
@@ -203,10 +231,17 @@ class MainViewController: UIViewController,
 			object: nil
 		)
 		
-		
-		
+	}
+	
+	
+	/**
+	Setup Timer
+	*/
+	func setUpTimer() {
 		
 	}
+	
+	
 	
 	/**
 	Update Status bar with info
@@ -292,5 +327,100 @@ class MainViewController: UIViewController,
 
 	}
 	
+	/**
+	- Parameters:
+	- timer: The Timer passing info,
+	*/
+	@objc func attitudeTimerUpdate() {
+		
+//		let userInfo = timer.userInfo as! Dictionary<String, AnyObject>
+//		let tempAttitude:CMAttitude = ( userInfo["attitude"] as! CMAttitude )
+		
+		if let accelerometerData = self.cmMotionManager.accelerometerData {
+			NSLog( String( describing:accelerometerData) )
+		}
+		if let gyroData = self.cmMotionManager.gyroData {
+			NSLog( String( describing:gyroData) )
+		}
+		if let magnetometerData = self.cmMotionManager.magnetometerData {
+			NSLog( String( describing:magnetometerData) )
+		}
+		if let deviceMotion = self.cmMotionManager.deviceMotion {
+			NSLog( String( describing:deviceMotion) )
+		}
+		
+	}
+	
+	/**
+	From Apple's Getting Processed Device Motion Data article.
+	*/
+	func startDeviceMotion() {
+		if self.cmMotionManager.isDeviceMotionAvailable {
+			self.cmMotionManager.deviceMotionUpdateInterval = 1.0 / 60
+			self.cmMotionManager.showsDeviceMovementDisplay = true
+			self.cmMotionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
+			
+			// Configure a timer to fetch the motion data.
+			
+			self.cmMotionManagerTimer = Timer(
+				timeInterval: 1.0 / 60,
+				repeats: true,
+				block: {
+					(timer) in
+					if let data = self.cmMotionManager.deviceMotion {
+						// Get the attitude relative to the magnetic north reference frame.
+//						let pitch = data.attitude.pitch
+						let roll = data.attitude.roll
+//						let yaw = data.attitude.yaw
+						
+//						let pitchD = BSMath.radToDeg(radians: pitch)
+						var rollD = BSMath.radToDeg(radians: roll)
+//						let yawD = BSMath.radToDeg(radians: yaw)
+						
+						rollD = -(rollD + 90)
+						
+						NSLog( String(format: "%.2f", rollD ) )
+						// Use the motion data in your app.
+					}
+				}
+			)
+			
+			// Add the timer to the current run loop.
+			RunLoop.current.add(
+				self.cmMotionManagerTimer!,
+				forMode: .defaultRunLoopMode
+			)
+			
+//			self.cmMotionManagerTimer?.fire()
+		}
+	}
+			
+			
+//			self.cmMotionManagerTimer = Timer(
+//				fire: Date(),
+//				interval: 1.0 / 60,
+//				repeats: true,
+//				block: {
+//					(timer) in
+//					if let data = self.cmMotionManager.deviceMotion {
+//						// Get the attitude relative to the magnetic north reference frame.
+//						let x = data.attitude.pitch
+//						_ = data.attitude.roll
+//						_ = data.attitude.yaw
+//
+//						NSLog( String( describing: x) )
+//						// Use the motion data in your app.
+//					}
+//				}
+//			)
+//
+//			// Add the timer to the current run loop.
+//			RunLoop.current.add(
+//				self.cmMotionManagerTimer!,
+//				forMode: .defaultRunLoopMode
+//			)
+//		}
+//	}
+
 }
 

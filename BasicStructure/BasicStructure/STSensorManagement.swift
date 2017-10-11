@@ -11,13 +11,22 @@ import AVFoundation
 import UIKit
 
 
+protocol DisplayImages {
+	func displayDepth( image : UIImage )
+	func displayColor( image : UIImage )
+}
+
+
 /**
 Think of this as the core 'model' for dealing with the Structure Sensor.
 */
 class STSensorManagement :
 	NSObject,
 	STSensorControllerDelegate,
-	AVCaptureVideoDataOutputSampleBufferDelegate {
+	AVCaptureVideoDataOutputSampleBufferDelegate
+	{
+
+	
 	
 	// MARK: Class Properties
 	
@@ -54,6 +63,8 @@ class STSensorManagement :
 	var currentDepthFrame : STDepthFrame?
 	var currentColorFrame : STColorFrame?
 	
+	var displayImagesDelegate : DisplayImages?
+	
 	
 	// MARK: Inits
 	
@@ -63,6 +74,8 @@ class STSensorManagement :
 		STSensorController.shared().delegate = self
 		
 	}
+	
+
 
 	// MARK: STSensorControllerDelegate Protocol Functions
 	
@@ -156,6 +169,9 @@ class STSensorManagement :
 		self.currentDepthFrame = depthFrame.copy() as? STDepthFrame
 		self.currentColorFrame = colorFrame.copy() as? STColorFrame
 
+		self.displayImagesDelegate?.displayDepth(image: self.renderImageFromDepthFrame() )
+		self.displayImagesDelegate?.displayColor(image: self.renderImageFromColorFrame() )
+		
 	}
 	
 	
@@ -490,6 +506,34 @@ class STSensorManagement :
 		var returnImage : UIImage?
 		
 		if let cvPixels = CMSampleBufferGetImageBuffer( sampleBuffer ) {
+			let coreImage = CIImage( cvPixelBuffer: cvPixels )
+			let context = CIContext()
+			let rect = CGRect(
+				x: 0,
+				y: 0,
+				width: CGFloat( CVPixelBufferGetWidth(cvPixels) ),
+				height: CGFloat( CVPixelBufferGetHeight(cvPixels) )
+			)
+			let cgImage = context.createCGImage( coreImage, from: rect )
+			
+			returnImage = UIImage( cgImage: cgImage! )
+			
+		}
+		
+		return returnImage!
+		
+	}
+	
+	
+	/**
+	Turn the Color Camera Buffer into an Image
+	- Returns: UIImage
+	*/
+	func renderImageFromColorFrame() -> UIImage {
+		
+		var returnImage : UIImage?
+		
+		if let cvPixels = CMSampleBufferGetImageBuffer( (self.currentColorFrame?.sampleBuffer)! ) {
 			let coreImage = CIImage( cvPixelBuffer: cvPixels )
 			let context = CIContext()
 			let rect = CGRect(

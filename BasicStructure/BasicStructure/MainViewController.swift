@@ -9,13 +9,17 @@
 import UIKit
 import CoreMotion
 
+
 class MainViewController: UIViewController,
 	UIPickerViewDataSource,
-	UIPickerViewDelegate {
+	UIPickerViewDelegate,
+    DisplayImages {
+
+	
 	
 
 	// MARK: CLASS PROPERTIES
-	var stairsPickerDataSource = [["UP", "NA", "DOWN"],["1","2","3","4","5","6","7","8"]];
+	var stairsPickerDataSource = [["UP", "NA", "DOWN"],["1","2","3","4","5","6","7","8"],["NONE","LIP","OPEN"]];
 	var stSensorManager : STSensorManagement = STSensorManagement()
 	let cmMotionManager = CMMotionManager()
 	var cmMotionManagerTimer : Timer?
@@ -51,27 +55,31 @@ class MainViewController: UIViewController,
 	@IBAction func CaptureButtonTouchUp(_ sender: UIButton) {
 		//
 		
+		AudioServicesPlaySystemSound(1057);
+		
 		let dir = FileManager.default.urls(
 			for: FileManager.SearchPathDirectory.documentDirectory,
 			in: FileManager.SearchPathDomainMask.userDomainMask).first!
-		let fileurl =  dir.appendingPathComponent("log.txt")
+		let fileURL =  dir.appendingPathComponent("log.txt")
 		
 		let string = "\(NSDate())\n"
 		let data = string.data(using: .utf8, allowLossyConversion: false)!
 		
-		if FileManager.default.fileExists(atPath: fileurl.path) {
-			if let fileHandle = try? FileHandle(forUpdating: fileurl) {
+		if FileManager.default.fileExists(atPath: fileURL.path) {
+			if let fileHandle = try? FileHandle(forUpdating: fileURL) {
 				fileHandle.seekToEndOfFile()
 				fileHandle.write(data)
 				fileHandle.closeFile()
 			}
 		} else {
-			try! data.write(to: fileurl, options: Data.WritingOptions.atomic)
+			try! data.write(to: fileURL, options: Data.WritingOptions.atomic)
 		}
 		
 		// Default camera sound
 		AudioServicesPlaySystemSound(1108);
-		
+		self.stairsPickerView.selectRow(0, inComponent: 0, animated: false)
+		self.stairsPickerView.selectRow(0, inComponent: 1, animated: false)
+		self.stairsPickerView.selectRow(0, inComponent: 2, animated: false)
 	}
 	
 	
@@ -80,6 +88,8 @@ class MainViewController: UIViewController,
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+		
+		self.stSensorManager.displayImagesDelegate = self
 		
 		self.stairsPickerView.dataSource = self
 		self.stairsPickerView.delegate = self
@@ -111,10 +121,9 @@ class MainViewController: UIViewController,
 
 	
 	
-	// MARK: PROTOCOL FUNCTIONS
-	// Picker Protocols
+	// MARK: PICKER PROTOCOL FUNCTIONS
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
-		return 2
+		return 3
 	}
 	
 	func pickerView(
@@ -126,13 +135,17 @@ class MainViewController: UIViewController,
 		var returnString : String = ""
 		
 		if( component == 0) {
-			returnString = stairsPickerDataSource[0][row]
+			returnString = self.stairsPickerDataSource[0][row]
 		}
 		
 		if( component == 1) {
-			returnString =  stairsPickerDataSource[1][row]
+			returnString = self.stairsPickerDataSource[1][row]
 		}
 	
+		if( component == 2) {
+			returnString = self.stairsPickerDataSource[2][row]
+		}
+		
 		return returnString
 		
 	}
@@ -150,6 +163,10 @@ class MainViewController: UIViewController,
 			returnInt = 8
 		}
 		
+		if( component == 2){
+			returnInt = 3
+		}
+		
 		return returnInt
 	}
 	
@@ -159,6 +176,17 @@ class MainViewController: UIViewController,
 		// The parameter named row and component represents what was selected.
 		
 		NSLog("Something Selected")
+	}
+	
+	
+	// MARK: ImageDisplay PROTOCOL FUNCTIONS
+
+	func displayDepth(image: UIImage) {
+		self.DepthImageView.image = image
+	}
+	
+	func displayColor(image: UIImage) {
+		self.ColorImageView.image = image
 	}
 	
 	

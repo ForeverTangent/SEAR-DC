@@ -80,7 +80,7 @@
                                     <constraint firstAttribute="trailing" secondItem="XUs-gZ-9UJ" secondAttribute="trailing" id="zp7-O0-9xS"/>
                                 </constraints>
                             </view>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Message Text Will Go Here" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xmi-um-f4g" userLabel="Message View">
+                            <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Message Text Will Go Here" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xmi-um-f4g" userLabel="Message View">
                                 <rect key="frame" x="20" y="325" width="627" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="TOD-C1-KN2"/>

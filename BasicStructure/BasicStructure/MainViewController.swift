@@ -10,19 +10,25 @@ import UIKit
 import CoreMotion
 
 
+enum ImageType : Int {
+	case Depth = 0
+	case Color = 1
+}
+
+
 class MainViewController: UIViewController,
 	UIPickerViewDataSource,
 	UIPickerViewDelegate,
     DisplayImages {
 
-	
-	
 
 	// MARK: CLASS PROPERTIES
 	var stairsPickerDataSource = [["UP", "BLOCK", "NA", "HOLE", "DOWN"],["1","2","3","4","5","6","7","8"],["NONE","LIP","OPEN"]];
 	var stSensorManager : STSensorManagement = STSensorManagement()
 	let cmMotionManager = CMMotionManager()
 	var cmMotionManagerTimer : Timer?
+	
+	var distanceArray: [Float]?
 	
 	
 	// MARK: LAZY PROPERTIES
@@ -100,6 +106,12 @@ class MainViewController: UIViewController,
 		self.startDeviceMotion()
 		
 
+		if( stSensorManager.stSensorController.isConnected() ) {
+			self.messageField.text = "Sensor Connected.  Starting Up."
+		} else {
+			self.messageField.text = "Connect Structure Sensor"
+		}
+		
 
 	}
 
@@ -124,7 +136,7 @@ class MainViewController: UIViewController,
 
 	
 	
-	// MARK: PICKER PROTOCOL FUNCTIONS
+	// MARK: PROTOCOL FUNCTIONS Picker
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		return 3
 	}
@@ -182,14 +194,30 @@ class MainViewController: UIViewController,
 	}
 	
 	
-	// MARK: ImageDisplay PROTOCOL FUNCTIONS
+	// MARK: PROTOCOL FUNCTIONS ImageDisplay
 
+	/**
+	Displays the Depth Image in the Viewer
+	*/
 	func displayDepth(image: UIImage) {
 		self.DepthImageView.image = image
 	}
 	
+	
+	/**
+	Displays the Color Image [as grayscale in the Viewer
+	*/
 	func displayColor(image: UIImage) {
-		self.ColorImageView.image = image
+		let grayImageOfColorCamera = self.createGrayScaleImageFrom(originalImage: image)
+		self.ColorImageView.image = grayImageOfColorCamera
+	}
+	
+	
+	/**
+	Store the distance array.
+	*/
+	func storeDistance( array: [Float] ) {
+		self.distanceArray = array
 	}
 	
 	
@@ -198,7 +226,6 @@ class MainViewController: UIViewController,
 	Set up the Notification Receivers
 	*/
 	func setupNotifications() {
-		
 		
 		NotificationCenter.default.addObserver(
 			self,
@@ -441,7 +468,41 @@ class MainViewController: UIViewController,
 //			self.cmMotionManagerTimer?.fire()
 		}
 	}
-			
+	
+	
+	/**
+	Creates a GrayScale Image
+	- Parameters:
+	- image: A UIImage to filter.
+	- Returns: A UIImage
+	*/
+	func createGrayScaleImageFrom( originalImage: UIImage ) -> UIImage {
+
+		// Create Context
+		let context = CIContext()
+		
+		// Create Filter  [CIColorControls for Saturation access]
+		let filter = CIFilter(name: "CIColorControls")!                        // 2
+		filter.setValue(0.0, forKey: "inputSaturation")
+		
+		// Create a CIImage object representing the image to be processed
+		let originalCIImage = CIImage(image: originalImage)
+		
+		// Apply filter to image.
+		filter.setValue(originalCIImage, forKey: kCIInputImageKey)
+		
+		// Get a CIImage object representing the filter’s output.
+		let returnCGImage = filter.outputImage!                                    // 4
+		
+		// Render the output image to a Core Graphics image
+		let cgImage = context.createCGImage(returnCGImage, from: returnCGImage.extent)    // 5
+		
+		// Return UI version of CGImage
+		return UIImage(cgImage: cgImage!)
+		
+	}
+	
+
 			
 //			self.cmMotionManagerTimer = Timer(
 //				fire: Date(),

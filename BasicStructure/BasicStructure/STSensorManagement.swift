@@ -14,6 +14,7 @@ import UIKit
 protocol DisplayImages {
 	func displayDepth( image : UIImage )
 	func displayColor( image : UIImage )
+	func storeDistance( array: [Float] )
 }
 
 
@@ -27,6 +28,7 @@ class STSensorManagement :
 	{
 
 	
+	var stSensorController : STSensorController = STSensorController.shared()
 	
 	// MARK: Class Properties
 	
@@ -166,11 +168,15 @@ class STSensorManagement :
 		// But for my projects I had to, because of timing issues.
 		// The frame would cease to exist before I was done with it
 		// I am leaving this here in case people wanted to see.
-		self.currentDepthFrame = depthFrame.copy() as? STDepthFrame
-		self.currentColorFrame = colorFrame.copy() as? STColorFrame
+		let currentDepthFrame = depthFrame.copy() as? STDepthFrame
+		let currentColorFrame = colorFrame.copy() as? STColorFrame
 
-		self.displayImagesDelegate?.displayDepth(image: self.renderImageFromDepthFrame() )
-		self.displayImagesDelegate?.displayColor(image: self.renderImageFromColorFrame() )
+		let depthFrameOutput = self.process(theDepthFrame: currentDepthFrame!)
+		let colorFrameOutput = self.process(theColorFrame: currentColorFrame!)
+		
+		self.displayImagesDelegate?.displayDepth( image: depthFrameOutput.image )
+		self.displayImagesDelegate?.storeDistance( array: depthFrameOutput.distanceArray )
+		self.displayImagesDelegate?.displayColor( image: colorFrameOutput )
 		
 	}
 	

@@ -19,7 +19,7 @@ class MainViewController: UIViewController,
 	
 
 	// MARK: CLASS PROPERTIES
-	var stairsPickerDataSource = [["UP", "NA", "DOWN"],["1","2","3","4","5","6","7","8"],["NONE","LIP","OPEN"]];
+	var stairsPickerDataSource = [["UP", "BLOCK", "NA", "HOLE", "DOWN"],["1","2","3","4","5","6","7","8"],["NONE","LIP","OPEN"]];
 	var stSensorManager : STSensorManagement = STSensorManagement()
 	let cmMotionManager = CMMotionManager()
 	var cmMotionManagerTimer : Timer?

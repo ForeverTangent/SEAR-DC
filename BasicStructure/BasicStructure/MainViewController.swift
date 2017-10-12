@@ -6,14 +6,13 @@
 //  Copyright © 2017 Rosenbaum. All rights reserved.
 //
 
+// Help from:
+// https://www.hackingwithswift.com/example-code/media/how-to-save-a-uiimage-to-a-file-using-uiimagepngrepresentation
+
+
 import UIKit
 import CoreMotion
 
-
-enum ImageType : Int {
-	case Depth = 0
-	case Color = 1
-}
 
 
 class MainViewController: UIViewController,
@@ -80,6 +79,9 @@ class MainViewController: UIViewController,
 		} else {
 			try! data.write(to: fileURL, options: Data.WritingOptions.atomic)
 		}
+		
+		NSLog( "UNIX TIME: \(NSDate().timeIntervalSince1970)" )
+		
 		
 		// Default camera sound
 		AudioServicesPlaySystemSound(1108);
@@ -357,7 +359,6 @@ class MainViewController: UIViewController,
 	}
 	
 	
-	
 	/**
 	NSNotification Function so set Sensor View.
 	- Parameter imageNotification: NSNotification, with UIImage Data.
@@ -406,9 +407,6 @@ class MainViewController: UIViewController,
 	- timer: The Timer passing info,
 	*/
 	@objc func attitudeTimerUpdate() {
-		
-//		let userInfo = timer.userInfo as! Dictionary<String, AnyObject>
-//		let tempAttitude:CMAttitude = ( userInfo["attitude"] as! CMAttitude )
 		
 		if let accelerometerData = self.cmMotionManager.accelerometerData {
 			NSLog( String( describing:accelerometerData) )
@@ -464,8 +462,7 @@ class MainViewController: UIViewController,
 				self.cmMotionManagerTimer!,
 				forMode: .defaultRunLoopMode
 			)
-			
-//			self.cmMotionManagerTimer?.fire()
+
 		}
 	}
 	
@@ -502,33 +499,27 @@ class MainViewController: UIViewController,
 		
 	}
 	
+	/**
+	*/
+	func save( image: UIImage, with filePrefix: String) {
+		
+		
+		
+		
+	}
+	
+	
+	
+	/**
+	Helper function I got here:
+	https://www.hackingwithswift.com/example-code/media/how-to-save-a-uiimage-to-a-file-using-uiimagepngrepresentation
+	- Returns: URL
+	*/
+	func getDocumentsDirectory() -> URL {
+		let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+		return paths[0]
+	}
 
-			
-//			self.cmMotionManagerTimer = Timer(
-//				fire: Date(),
-//				interval: 1.0 / 60,
-//				repeats: true,
-//				block: {
-//					(timer) in
-//					if let data = self.cmMotionManager.deviceMotion {
-//						// Get the attitude relative to the magnetic north reference frame.
-//						let x = data.attitude.pitch
-//						_ = data.attitude.roll
-//						_ = data.attitude.yaw
-//
-//						NSLog( String( describing: x) )
-//						// Use the motion data in your app.
-//					}
-//				}
-//			)
-//
-//			// Add the timer to the current run loop.
-//			RunLoop.current.add(
-//				self.cmMotionManagerTimer!,
-//				forMode: .defaultRunLoopMode
-//			)
-//		}
-//	}
 
 }
 

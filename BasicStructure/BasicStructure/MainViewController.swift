@@ -77,7 +77,7 @@ class MainViewController: UIViewController,
 		
 		// Default camera sound
 		AudioServicesPlaySystemSound(1108);
-		self.stairsPickerView.selectRow(0, inComponent: 0, animated: false)
+		self.stairsPickerView.selectRow(2, inComponent: 0, animated: false)
 		self.stairsPickerView.selectRow(0, inComponent: 1, animated: false)
 		self.stairsPickerView.selectRow(0, inComponent: 2, animated: false)
 	}
@@ -93,10 +93,13 @@ class MainViewController: UIViewController,
 		
 		self.stairsPickerView.dataSource = self
 		self.stairsPickerView.delegate = self
+		self.stairsPickerView.selectRow(2, inComponent: 0, animated: false)
 		
 		self.setupNotifications()
 		
 		self.startDeviceMotion()
+		
+
 
 	}
 
@@ -156,7 +159,7 @@ class MainViewController: UIViewController,
 		var returnInt : Int = 0
 		
 		if( component == 0 ){
-			returnInt = 3
+			returnInt = 5
 		}
 		
 		if( component == 1){

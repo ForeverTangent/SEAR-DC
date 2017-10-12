@@ -363,7 +363,7 @@ class STSensorManagement :
 			do {
 				try STSensorController.shared().startStreaming(options: options as [NSObject : AnyObject])
 				let toRGBAOptions : [NSObject : AnyObject] = [
-					kSTDepthToRgbaStrategyKey as NSObject : NSNumber(value: STDepthToRgbaStrategy.redToBlueGradient.rawValue)
+					kSTDepthToRgbaStrategyKey as NSObject : NSNumber(value: STDepthToRgbaStrategy.gray.rawValue)
 				]
 				self.toRGBA = STDepthToRgba(options: toRGBAOptions)
 				self.startColorCamera()

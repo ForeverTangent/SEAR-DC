@@ -28,18 +28,17 @@ class MainViewController: UIViewController,
 
 
 	// MARK: CLASS PROPERTIES
-	var stairsPickerDataSource = [["UP", "BLOCK", "NA", "HOLE", "DOWN"],["NONE","LIP","OPEN"]];
+	var stairsPickerDataSource = [["UP", "BLOCK", "NA", "HOLE", "DOWN"],["NONE","LIP","OPEN"],["CLEAR","OCCUPIED"]];
 	var stSensorManager : STSensorManagement = STSensorManagement()
 	let cmMotionManager = CMMotionManager()
 	var cmMotionManagerTimer : Timer?
 	
-	var distanceArray: [Float] = [Float]()
-	
-	var pickerSelection : [String] = ["", ""]
+	var pickerSelection : [String] = ["", "",""]
 	var currentDeviceAngle : Double = 0.0
 	
 	var lastPicturePrefixID : Int = 0
-	
+
+	var distanceArray: [Float] = [Float]()
 	
 	// MARK: LAZY PROPERTIES
 	/**
@@ -52,6 +51,7 @@ class MainViewController: UIViewController,
 		return appDelegate.runningSimulator
 		
 	}
+
 	
 	// MARK: IBOutputs
 	
@@ -79,31 +79,33 @@ class MainViewController: UIViewController,
 		if( self.lastPicturePrefixID != Int(NSDate().timeIntervalSince1970) ) {
 			
 			// Only take a picture if the sensor is connected.
-			//		if self.stSensorManager.stSensorController.isConnected() {
+			if self.stSensorManager.stSensorController.isConnected() {
+				
+				self.lastPicturePrefixID = Int(NSDate().timeIntervalSince1970)
+				let currentID : String = String(self.lastPicturePrefixID)
+				
+				let dataString = self.createDataStringForCSVWith(
+					prefix: currentID,
+					obstacle: self.pickerSelection[0],
+					type: self.pickerSelection[1],
+					occupated: self.pickerSelection[2],
+					angle: 5.5,
+					depthArray: self.distanceArray
+				)
+				
+				NSLog(dataString)
+				
+				self.save(csvData: dataString)
+				self.saveImages(with: currentID)
+				
+				// Default camera sound
+				AudioServicesPlaySystemSound(1108);
+				
+				
+				self.messageField.text = "Data Captured. Free Space: \(self.remainingDiskSpaceOnThisDevice())"
+				
 			
-			
-			self.lastPicturePrefixID = Int(NSDate().timeIntervalSince1970)
-			let currentID : String = String(self.lastPicturePrefixID)
-			
-			NSLog( "UNIX TIME: \(currentID)" )
-			NSLog( "\(self.pickerSelection[0])" + "," + "\(self.pickerSelection[1])" )
-			
-			
-			let dataString = self.createDataStringForCSVWith(
-				prefix: currentID,
-				obstacle: self.pickerSelection[0],
-				type: self.pickerSelection[1],
-				angle: 5.5,
-				depthArray: self.distanceArray
-			)
-			NSLog(dataString)
-			
-			self.save(csvData: dataString)
-			
-			// Default camera sound
-			AudioServicesPlaySystemSound(1108);
-			
-			//		}
+			}
 		}
 	}
 	
@@ -124,6 +126,8 @@ class MainViewController: UIViewController,
 		self.pickerSelection[0] = self.stairsPickerDataSource[0][0]
 		self.stairsPickerView.selectRow(0, inComponent: 1, animated: false)
 		self.pickerSelection[1] = self.stairsPickerDataSource[1][0]
+		self.stairsPickerView.selectRow(0, inComponent: 2, animated: false)
+		self.pickerSelection[2] = self.stairsPickerDataSource[2][0]
 		
 		self.setupNotifications()
 		
@@ -147,15 +151,16 @@ class MainViewController: UIViewController,
 
 		self.cmMotionManager.stopGyroUpdates()
 		self.cmMotionManager.stopDeviceMotionUpdates()
-		
+
 		self.removeNotifications()
+		
 	}
 
 	
 	
 	// MARK: PROTOCOL FUNCTIONS Picker
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
-		return 2
+		return 3
 	}
 	
 	func pickerView(
@@ -174,6 +179,10 @@ class MainViewController: UIViewController,
 			returnString = self.stairsPickerDataSource[1][row]
 		}
 
+		if( component == 2) {
+			returnString = self.stairsPickerDataSource[2][row]
+		}
+		
 		return returnString
 		
 	}
@@ -192,6 +201,10 @@ class MainViewController: UIViewController,
 		
 		if( component == 1){
 			returnInt = 3
+		}
+		
+		if( component == 2){
+			returnInt = 2
 		}
 		
 		return returnInt
@@ -531,6 +544,7 @@ class MainViewController: UIViewController,
 		prefix: String,
 		obstacle : String,
 		type: String,
+		occupated: String,
 		angle: Float,
 		depthArray: [Float]
 		) -> String {
@@ -541,6 +555,7 @@ class MainViewController: UIViewController,
 		returnString.append("," + String(angle))
 		returnString.append("," + obstacle)
 		returnString.append("," + type)
+		returnString.append("," + occupated)
 		
 		for element in depthArray {
 			returnString.append(",\(element)")
@@ -550,8 +565,6 @@ class MainViewController: UIViewController,
 		
 		return returnString
 		
-		
-		
 	}
 
 	/**
@@ -559,13 +572,8 @@ class MainViewController: UIViewController,
 	- Parameter csvData: The String with all the CSV data
 	*/
 	func save(csvData: String) {
-		
-		// Get Document Directory
-//		let dir = FileManager.default.urls(
-//			for: FileManager.SearchPathDirectory.documentDirectory,
-//			in: FileManager.SearchPathDomainMask.userDomainMask).first!
-		
-		// Set a Filename for the FILES.
+
+		// Set a Filename for the Files.
 		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_INFO+DEPTH.csv")
 		
 		let data = csvData.data(using: .utf8, allowLossyConversion: false)!
@@ -589,11 +597,6 @@ class MainViewController: UIViewController,
 	*/
 	func saveImages(with prefix: String ){
 		
-		// Get Document Directory
-//		let dir = FileManager.default.urls(
-//			for: FileManager.SearchPathDirectory.documentDirectory,
-//			in: FileManager.SearchPathDomainMask.userDomainMask).first!
-		
 		let depthImage = self.DepthImageView.image
 		let colorImage = self.ColorImageView.image
 		
@@ -603,7 +606,7 @@ class MainViewController: UIViewController,
 		}
 		
 		if let colorImageData = UIImagePNGRepresentation(colorImage!) {
-			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)-DEPTH.png")
+			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)-COLOR.png")
 			try? colorImageData.write(to: colorImageFilename)
 		}
 		
@@ -620,6 +623,21 @@ class MainViewController: UIViewController,
 		return path
 	}
 
+	
+	/**
+	Found Here:
+	https://stackoverflow.com/questions/5712527/how-to-detect-total-available-free-disk-space-on-the-iphone-ipad-device
+	*/
+	func remainingDiskSpaceOnThisDevice() -> String {
+		var remainingSpace = NSLocalizedString("Unknown", comment: "Free space unknown.")
+		if let attributes = try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory()),
+			let freeSpaceSize = attributes[FileAttributeKey.systemFreeSize] as? Int64 {
+			remainingSpace = ByteCountFormatter.string(fromByteCount: freeSpaceSize, countStyle: .file)
+		}
+		return remainingSpace
+	}
+	
+	
 
 }
 

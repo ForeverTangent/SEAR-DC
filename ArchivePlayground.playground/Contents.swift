@@ -10,7 +10,7 @@ var str = "Hello, playground"
 //https://www.hackingwithswift.com/example-code/system/how-to-save-and-load-objects-with-nskeyedarchiver-and-nskeyedunarchiver
 
 
-let iArray : [Float] = [1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9,0.10	]
+let iArray : [Float] = [1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9,0.10]
 
 let dir = FileManager.default.urls(
 	for: FileManager.SearchPathDirectory.documentDirectory,

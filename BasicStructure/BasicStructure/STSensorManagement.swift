@@ -11,11 +11,6 @@ import AVFoundation
 import UIKit
 
 
-protocol DisplayImages {
-	func displayDepth( image : UIImage )
-	func displayColor( image : UIImage )
-	func storeDistance( array: [Float] )
-}
 
 
 /**

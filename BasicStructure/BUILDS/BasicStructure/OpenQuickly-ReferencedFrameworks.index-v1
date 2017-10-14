@@ -3,8 +3,8 @@
 <plist version="1.0">
 <array>
 	<string>Foundation</string>
-	<string>AVFoundation</string>
 	<string>CoreMotion</string>
+	<string>AVFoundation</string>
 	<string>UIKit</string>
 	<string>Darwin</string>
 </array>

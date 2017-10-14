@@ -89,7 +89,7 @@ class MainViewController: UIViewController,
 					obstacle: self.pickerSelection[0],
 					type: self.pickerSelection[1],
 					occupated: self.pickerSelection[2],
-					angle: 5.5,
+					angle: Float(self.currentDeviceAngle),
 					depthArray: self.distanceArray
 				)
 				
@@ -108,6 +108,17 @@ class MainViewController: UIViewController,
 			}
 		}
 	}
+	
+	
+	@IBAction func showHelp(_ sender: Any) {
+		
+		let modalViewController = storyboard?.instantiateViewController(withIdentifier: "ModalView") as! ModalViewController
+		
+		present(modalViewController, animated: true, completion: nil)
+		
+		
+	}
+	
 	
 	
 	// MARK: OVERRIDES
@@ -139,6 +150,8 @@ class MainViewController: UIViewController,
 			self.messageField.text = "Connect Structure Sensor"
 		}
 
+//		UIApplication.shared.isIdleTimerDisabled = true
+		
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -552,7 +565,7 @@ class MainViewController: UIViewController,
 		var returnString : String = ""
 		
 		returnString.append(prefix)
-		returnString.append("," + String(angle))
+		returnString.append("," + String(format: "%.2f", angle))
 		returnString.append("," + obstacle)
 		returnString.append("," + type)
 		returnString.append("," + occupated)

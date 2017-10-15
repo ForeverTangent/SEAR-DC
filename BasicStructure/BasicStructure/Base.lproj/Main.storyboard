@@ -155,18 +155,18 @@
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
-                                <mutableString key="text">Quick Help 
-UP : Stairs going up. BLOCK : Obstical above ground level.  Bench, Hedge Row NA: Flat Ground HOLE: Hole in the ground, or ledge of object, that results in a fall greater then 8 inches.  DOWN: DownStairs  NONE: Stairs with flat face. LIP: Stairs with lip edge OPEN: Stairs with open air between step planes.  CLEAR: No people/object in viewstrum OCCUPIED: People/objects in Viewstrum</mutableString>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <string key="text">Quick Help 
+UP : Stairs going up. BLOCK : Obstical above ground level.  Bench, Hedge Row NA: Flat Ground HOLE: Hole in the ground, or ledge of object, that results in a fall greater then 8 inches.  DOWN: DownStairs  NONE: Stairs with flat face. LIP: Stairs with lip edge OPEN: Stairs with open air between step planes.  CLEAR: No people/object in viewstrum OCCUPIED: People/objects in Viewstrum</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="luA-SN-XyT">
                                 <rect key="frame" x="327" y="20" width="320" height="297"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">Take pictures at about 3-4 different heights, simulating child, teen, adult, tall-adult.  Take various pictures within 15 feet of target and closer.
+                                <string key="text">Take pictures at about 3-4 different heights, simulating child, teen, adult, tall-adult.  Take various pictures within 15 feet of target and closer.
 
-Only take head on pictures of stairs unless the staircase is wider then taller.  Then take pictures of stairs from head on and 30-45 degree angles from left and right.  Always make sure data is set for each picture.</mutableString>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+Only take head on pictures of stairs unless the staircase is wider then taller.  Then take pictures of stairs from head on and 30-45 degree angles from left and right.  Always make sure data is set for each picture.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>

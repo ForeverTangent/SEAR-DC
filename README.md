@@ -27,3 +27,11 @@ Similarity if you get a bunch of errors when building that look like this:
 Make sure you have Structure.framework in the list of "Link Binaries With Libraries" on the Build Phases tab.
 
 [Link error while using Structure SDK](https://forums.structure.io/t/link-error-while-using-structure-sdk/6779)
+
+
+
+Data format of "SEAR_DC_INFO+DEPTH.csv" file.
+INSTANCE_ID, Angle, Object, Stair_Type, Occupation, Depth_Array...
+
+
+

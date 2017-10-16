@@ -599,7 +599,7 @@ class MainViewController: UIViewController,
 	func save(csvData: String) {
 
 		// Set a Filename for the Files.
-		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_NORM_INFO+DEPTH.csv")
+		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_INFO+DEPTH_NORM.csv")
 		
 		let data = csvData.data(using: .utf8, allowLossyConversion: false)!
 		
@@ -622,7 +622,7 @@ class MainViewController: UIViewController,
 	func saveFlopped(csvData: String) {
 		
 		// Set a Filename for the Files.
-		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_FLOP_INFO+DEPTH.csv")
+		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_INFO+DEPTH_FLOP.csv")
 		
 		let data = csvData.data(using: .utf8, allowLossyConversion: false)!
 		

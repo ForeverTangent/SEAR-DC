@@ -93,9 +93,21 @@ class MainViewController: UIViewController,
 					depthArray: self.distanceArray
 				)
 				
+				let floppedDistanceArray = flop(depthArray: self.distanceArray)
+				let dataStringFlopped = self.createDataStringForCSVWith(
+					prefix: currentID,
+					obstacle: self.pickerSelection[0],
+					type: self.pickerSelection[1],
+					occupated: self.pickerSelection[2],
+					angle: Float(self.currentDeviceAngle),
+					depthArray: floppedDistanceArray
+				)
+				
 				NSLog(dataString)
 				
 				self.save(csvData: dataString)
+				self.saveFlopped(csvData: dataStringFlopped)
+				
 				self.saveImages(with: currentID)
 				
 				// Default camera sound
@@ -587,7 +599,30 @@ class MainViewController: UIViewController,
 	func save(csvData: String) {
 
 		// Set a Filename for the Files.
-		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_INFO+DEPTH.csv")
+		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_NORM_INFO+DEPTH.csv")
+		
+		let data = csvData.data(using: .utf8, allowLossyConversion: false)!
+		
+		if FileManager.default.fileExists(atPath: fileURL.path) {
+			if let fileHandle = try? FileHandle(forUpdating: fileURL) {
+				fileHandle.seekToEndOfFile()
+				fileHandle.write(data)
+				fileHandle.closeFile()
+			}
+		} else {
+			try! data.write(to: fileURL, options: Data.WritingOptions.atomic)
+		}
+		
+	}
+	
+	/**
+	Saves the CSV Data
+	- Parameter csvData: The String with all the CSV data
+	*/
+	func saveFlopped(csvData: String) {
+		
+		// Set a Filename for the Files.
+		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_FLOP_INFO+DEPTH.csv")
 		
 		let data = csvData.data(using: .utf8, allowLossyConversion: false)!
 		
@@ -613,14 +648,27 @@ class MainViewController: UIViewController,
 		let depthImage = self.DepthImageView.image
 		let colorImage = self.ColorImageView.image
 		
+		let depthImageFlopped = self.flipImageLeftRight( self.DepthImageView.image!)
+		let colorImageFlopped = self.flipImageLeftRight( self.ColorImageView.image!)
+		
 		if let depthImageData = UIImagePNGRepresentation(depthImage!) {
-			let depthImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)-DEPTH.png")
+			let depthImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_DEPTH_NORM.png")
 			try? depthImageData.write(to: depthImageFilename)
+		}
+
+		if let depthImageFlopData = UIImagePNGRepresentation(depthImageFlopped!) {
+			let depthImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_DEPTH_FLOP.png")
+			try? depthImageFlopData.write(to: depthImageFlopFilename)
 		}
 		
 		if let colorImageData = UIImagePNGRepresentation(colorImage!) {
-			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)-COLOR.png")
+			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_COLOR_NORM.png")
 			try? colorImageData.write(to: colorImageFilename)
+		}
+		
+		if let colorImageFlopData = UIImagePNGRepresentation(colorImageFlopped!) {
+			let colorImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_COLOR_FLOP.png")
+			try? colorImageFlopData.write(to: colorImageFlopFilename)
 		}
 		
 	}
@@ -651,6 +699,54 @@ class MainViewController: UIViewController,
 	}
 	
 	
+	/**
+	Flops the depth array
+	- Parameter depthArray: A [Float] to Flop
+	- Returns: [Float], A Float Array
+	*/
+	func flop( depthArray: [Float] ) -> [Float] {
+		var returnArray : [Float] = [Float]()
+		
+		var theDepthArray = depthArray
+		
+		while( theDepthArray.count != 0 ){
+			let oneRow : [Float] = Array(theDepthArray[0..<640])
+			theDepthArray = Array(theDepthArray[640...])
+			
+			var oneRowRev = Array( oneRow.reversed() )
+			
+			for element in oneRowRev {
+				returnArray.append(element)
+			}
+			
+			oneRowRev.removeAll()
+			
+		}
+		return returnArray
+		
+	}
+	
+	
+	
+	/**
+	https://stackoverflow.com/questions/24965638/how-to-flip-uiimage-horizontally-with-swift#24965768
+	*/
+	func flipImageLeftRight(_ image: UIImage) -> UIImage? {
+		
+		UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+		let context = UIGraphicsGetCurrentContext()!
+		context.translateBy(x: image.size.width, y: image.size.height)
+		context.scaleBy(x: -image.scale, y: -image.scale)
+		
+		context.draw(image.cgImage!, in: CGRect(origin:CGPoint.zero, size: image.size))
+		
+		let newImage = UIGraphicsGetImageFromCurrentImageContext()
+		
+		UIGraphicsEndImageContext()
+		
+		return newImage
+		
+	}
 
 }
 

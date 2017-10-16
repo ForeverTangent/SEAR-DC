@@ -36,15 +36,19 @@ func buildTestArray() -> [Float] {
 
 
 
-
-func flop( theArray: inout [Float] ) -> [Float] {
+/**
+Flops the depth array
+- Parameter depthArray: A [Float] to Flop
+- Returns: [Float], A Float Array
+*/
+func flop( depthArray: [Float] ) -> [Float] {
 	var returnArray : [Float] = [Float]()
 	
-	while( theArray.count != 0 ){
-		let oneRow : [Float] = Array(theArray[0..<6])
-		theArray = Array(theArray[6...])
-		
-		print( theArray.count)
+	var theDepthArray = depthArray
+	
+	while( theDepthArray.count != 0 ){
+		let oneRow : [Float] = Array(theDepthArray[0..<6])
+		theDepthArray = Array(theDepthArray[6...])
 		
 		var oneRowRev = Array( oneRow.reversed() )
 		
@@ -61,6 +65,6 @@ func flop( theArray: inout [Float] ) -> [Float] {
 
 var test = buildTestArray()
 print( test )
-var testRev = flop(theArray: &test)
+var testRev = flop(depthArray: test)
 print( testRev )
 

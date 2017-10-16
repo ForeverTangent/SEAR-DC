@@ -83,30 +83,52 @@ class MainViewController: UIViewController,
 				
 				self.lastPicturePrefixID = Int(NSDate().timeIntervalSince1970)
 				let currentID : String = String(self.lastPicturePrefixID)
-				
-				let dataString = self.createDataStringForCSVWith(
-					prefix: currentID,
-					obstacle: self.pickerSelection[0],
-					type: self.pickerSelection[1],
-					occupated: self.pickerSelection[2],
-					angle: Float(self.currentDeviceAngle),
-					depthArray: self.distanceArray
-				)
-				
 				let floppedDistanceArray = flop(depthArray: self.distanceArray)
-				let dataStringFlopped = self.createDataStringForCSVWith(
+				
+				let dataRecord = self.createDataStringForCSVWith(
 					prefix: currentID,
 					obstacle: self.pickerSelection[0],
 					type: self.pickerSelection[1],
 					occupated: self.pickerSelection[2],
-					angle: Float(self.currentDeviceAngle),
-					depthArray: floppedDistanceArray
+					angle: Float(self.currentDeviceAngle)
+				)
+				self.save(csvRecordData: dataRecord)
+				
+				
+//				let dataString = self.createDataStringForCSVWith(
+//					prefix: currentID,
+//					obstacle: self.pickerSelection[0],
+//					type: self.pickerSelection[1],
+//					occupated: self.pickerSelection[2],
+//					angle: Float(self.currentDeviceAngle),
+//					depthArray: self.distanceArray
+//				)
+//				self.save(csvData: dataString)
+//
+//
+//				let dataStringFlopped = self.createDataStringForCSVWith(
+//					prefix: currentID,
+//					obstacle: self.pickerSelection[0],
+//					type: self.pickerSelection[1],
+//					occupated: self.pickerSelection[2],
+//					angle: Float(self.currentDeviceAngle),
+//					depthArray: floppedDistanceArray
+//				)
+//				self.saveFlopped(csvData: dataStringFlopped)
+				
+				self.save(
+					depthData: self.createDataStringForCSVForJust(depthArray: self.distanceArray),
+					for: currentID,
+					flopped: false
 				)
 				
-				NSLog(dataString)
 				
-				self.save(csvData: dataString)
-				self.saveFlopped(csvData: dataStringFlopped)
+				self.save(
+					depthData: self.createDataStringForCSVForJust(depthArray: floppedDistanceArray),
+					for: currentID,
+					flopped: true
+				)
+				
 				
 				self.saveImages(with: currentID)
 				
@@ -591,9 +613,122 @@ class MainViewController: UIViewController,
 		return returnString
 		
 	}
+	
+	
+	/**
+	To build the string to record all info but depth data.
+	[This function is particular for the data for SEAR-DC]
+	-Parameters:
+	-prefix: String of the IDing Prefix
+	-obstacle: String, of what is in encountered
+	-type: String, type of obstacle, if stairs
+	-Returns: a String
+	*/
+	func createDataStringForCSVWith(
+		prefix: String,
+		obstacle : String,
+		type: String,
+		occupated: String,
+		angle: Float
+		) -> String {
+		
+		var returnString : String = ""
+		
+		returnString.append(prefix)
+		returnString.append("," + String(format: "%.2f", angle))
+		returnString.append("," + obstacle)
+		returnString.append("," + type)
+		returnString.append("," + occupated)
+		
+		returnString.append("\n")
+		
+		return returnString
+		
+	}
+
 
 	/**
-	Saves the CSV Data
+	To builds a String of the Depth Data only.
+
+	-depthArray: the Depth array.
+	-Returns: a String
+	*/
+	func createDataStringForCSVForJust(
+		depthArray: [Float]
+		) -> String {
+		
+		var returnString : String = ""
+		returnString.append("\(depthArray[0])")
+		
+		let remainingArray = Array(depthArray[1...])
+		
+		for element in remainingArray {
+			returnString.append(",\(element)")
+		}
+		
+		returnString.append("\n")
+		
+		return returnString
+		
+	}
+	
+	
+	/**
+	Saves the Point Cloud Data in CSV.
+	- Parameter csvData: The String with all the CSV data
+	*/
+	func save(depthData: String, for ID: String, flopped: Bool ) {
+		
+		// Set a Filename for the Files.
+		var fileURL : URL
+		
+		if( flopped ) {
+			fileURL = getDocumentsDirectory().appendingPathComponent("\(ID)_PCLOUD_FLOP.csv")
+		} else {
+			fileURL = getDocumentsDirectory().appendingPathComponent("\(ID)_PCLOUD_NORM.csv")
+		}
+		
+		
+		let data = depthData.data(using: .utf8, allowLossyConversion: false)!
+		
+		if FileManager.default.fileExists(atPath: fileURL.path) {
+			if let fileHandle = try? FileHandle(forUpdating: fileURL) {
+				fileHandle.seekToEndOfFile()
+				fileHandle.write(data)
+				fileHandle.closeFile()
+			}
+		} else {
+			try! data.write(to: fileURL, options: Data.WritingOptions.atomic)
+		}
+		
+	}
+	
+	
+	/**
+	Saves the Record Data as CSV
+	- Parameter csvData: The String with all the CSV data
+	*/
+	func save(csvRecordData: String) {
+		
+		// Set a Filename for the Files.
+		let fileURL =  getDocumentsDirectory().appendingPathComponent("SEAR_DC_INFO.csv")
+		
+		let data = csvRecordData.data(using: .utf8, allowLossyConversion: false)!
+		
+		if FileManager.default.fileExists(atPath: fileURL.path) {
+			if let fileHandle = try? FileHandle(forUpdating: fileURL) {
+				fileHandle.seekToEndOfFile()
+				fileHandle.write(data)
+				fileHandle.closeFile()
+			}
+		} else {
+			try! data.write(to: fileURL, options: Data.WritingOptions.atomic)
+		}
+		
+	}
+	
+	/**
+	Saves the Record and NORMAL Point Cloud Data as CSV
 	- Parameter csvData: The String with all the CSV data
 	*/
 	func save(csvData: String) {
@@ -616,7 +751,7 @@ class MainViewController: UIViewController,
 	}
 	
 	/**
-	Saves the CSV Data
+	Saves the Record and FLOPPED Point Cloud Data as CSV
 	- Parameter csvData: The String with all the CSV data
 	*/
 	func saveFlopped(csvData: String) {
@@ -652,22 +787,22 @@ class MainViewController: UIViewController,
 		let colorImageFlopped = self.flipImageLeftRight( self.ColorImageView.image!)
 		
 		if let depthImageData = UIImagePNGRepresentation(depthImage!) {
-			let depthImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_DEPTH_NORM.png")
+			let depthImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_IDEPTH_NORM.png")
 			try? depthImageData.write(to: depthImageFilename)
 		}
 
 		if let depthImageFlopData = UIImagePNGRepresentation(depthImageFlopped!) {
-			let depthImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_DEPTH_FLOP.png")
+			let depthImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_IDEPTH_FLOP.png")
 			try? depthImageFlopData.write(to: depthImageFlopFilename)
 		}
 		
 		if let colorImageData = UIImagePNGRepresentation(colorImage!) {
-			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_COLOR_NORM.png")
+			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_ICOLOR_NORM.png")
 			try? colorImageData.write(to: colorImageFilename)
 		}
 		
 		if let colorImageFlopData = UIImagePNGRepresentation(colorImageFlopped!) {
-			let colorImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_COLOR_FLOP.png")
+			let colorImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_ICOLOR_FLOP.png")
 			try? colorImageFlopData.write(to: colorImageFlopFilename)
 		}
 		

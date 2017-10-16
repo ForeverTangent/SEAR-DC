@@ -67,4 +67,7 @@ var test = buildTestArray()
 print( test )
 var testRev = flop(depthArray: test)
 print( testRev )
+test[0]
+
+test = Array(test[1...])
 

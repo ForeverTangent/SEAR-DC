@@ -5,7 +5,7 @@
 
 ### Simple Occipital Structure Data Collection App written in Swift
 
-The project itself is an extension of my Master Project work you can read about here: (SEAR-RL)[http://constructive-noise.info/?cat=28]
+The project itself is an extension of my Master Project work you can read about here: [SEAR-RL](http://constructive-noise.info/?cat=28)
 
 **SEAR-RL** is an system using an Occipital Structure to allow visual impaired people to hear their surroundings.
 

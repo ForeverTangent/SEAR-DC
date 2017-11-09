@@ -36,7 +36,13 @@ Once erased this means a new SEAR_DC_INFO.csv will be created for every session 
 ### DATA Format.
 
 Data format of SEAR_DC_INFO.csv file.
-INSTANCE_ID, Angle, Object, Stair_Type, Occupation, Depth_Array...
+INSTANCE_ID, Angle, Object, Stair_Type, Occupation
+For I was doing:
+* INSTANCE_ID: Unix Time Stamp - The corresponding Datum will start with this value.
+* Angle: is the pitch of the iDevice when taking a data capture.
+* Object: was the class of the object in question
+* Stair_Type: was a subclass of the Object,
+* Occupation: was if the view was obstructed by a person, or object or clear. (I ended up not using this at all)
 
 ---
 ### Addendum

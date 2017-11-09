@@ -26,6 +26,8 @@ The App, will generate 6 pieces of datum for a data set.
 * A CSV file of the Point Cloud Data.  
 * Finally, The app generates a ‘FLOPPED’ (mirrored) version of each datum. (This is just a quick way to double the amount of data you can train a ML model on).
 
+It takes a second to record all data. You will hear the camera shutter noise, when it is done.  (Yeah, no optimization here, just hold the device still for a second and let it do its thing.)
+
 The Project also makes a record in SEAR_DC_INFO.csv this marking any IDs set in the UIPickerField.   All records the datum and the in the SEAR_DC_INFO+DEPTH.csv are tagged with a UNIX time stamp of when the data was recorded.
 
 To extract the data from the iDevice, just plug in and use the iTunes File Sharing. (Make sure you erase the data once you copy it off the device).

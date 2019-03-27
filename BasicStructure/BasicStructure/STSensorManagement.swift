@@ -303,8 +303,8 @@ class STSensorManagement :
 				catch let error as NSError {
 					NSLog( error.localizedDescription )
 				}
-				device.activeVideoMaxFrameDuration = CMTimeMake( 1, 30 )
-				device.activeVideoMinFrameDuration = CMTimeMake( 1, 30 )
+				device.activeVideoMaxFrameDuration = CMTimeMake( value: 1, timescale: 30 )
+				device.activeVideoMinFrameDuration = CMTimeMake( value: 1, timescale: 30 )
 				device.unlockForConfiguration()
 			}
 			

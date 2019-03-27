@@ -309,7 +309,7 @@ class MainViewController: UIViewController,
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(self.appDidBecomeActive),
-			name: NSNotification.Name.UIApplicationDidBecomeActive,
+			name: UIApplication.didBecomeActiveNotification,
 			object: nil
 		)
 		
@@ -317,7 +317,7 @@ class MainViewController: UIViewController,
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(self.appDidBecomeInactive),
-			name: NSNotification.Name.UIApplicationDidEnterBackground,
+			name: UIApplication.didEnterBackgroundNotification,
 			object: nil
 		)
 		
@@ -374,13 +374,13 @@ class MainViewController: UIViewController,
 		
 		NotificationCenter.default.removeObserver(
 			self,
-			name: NSNotification.Name.UIApplicationDidBecomeActive,
+			name: UIApplication.didBecomeActiveNotification,
 			object: nil
 		)
 		
 		NotificationCenter.default.removeObserver(
 			self,
-			name: NSNotification.Name.UIApplicationDidEnterBackground,
+			name: UIApplication.didEnterBackgroundNotification,
 			object: nil
 		)
 		
@@ -537,7 +537,7 @@ class MainViewController: UIViewController,
 			// Add the timer to the current run loop.
 			RunLoop.current.add(
 				self.cmMotionManagerTimer!,
-				forMode: .defaultRunLoopMode
+				forMode: RunLoop.Mode.default
 			)
 
 		}
@@ -786,22 +786,22 @@ class MainViewController: UIViewController,
 		let depthImageFlopped = self.flipImageLeftRight( self.DepthImageView.image!)
 		let colorImageFlopped = self.flipImageLeftRight( self.ColorImageView.image!)
 		
-		if let depthImageData = UIImagePNGRepresentation(depthImage!) {
+		if let depthImageData = depthImage!.pngData() {
 			let depthImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_IDEPTH_NORM.png")
 			try? depthImageData.write(to: depthImageFilename)
 		}
 
-		if let depthImageFlopData = UIImagePNGRepresentation(depthImageFlopped!) {
+		if let depthImageFlopData = depthImageFlopped!.pngData() {
 			let depthImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_IDEPTH_FLOP.png")
 			try? depthImageFlopData.write(to: depthImageFlopFilename)
 		}
 		
-		if let colorImageData = UIImagePNGRepresentation(colorImage!) {
+		if let colorImageData = colorImage!.pngData() {
 			let colorImageFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_ICOLOR_NORM.png")
 			try? colorImageData.write(to: colorImageFilename)
 		}
 		
-		if let colorImageFlopData = UIImagePNGRepresentation(colorImageFlopped!) {
+		if let colorImageFlopData = colorImageFlopped!.pngData() {
 			let colorImageFlopFilename = getDocumentsDirectory().appendingPathComponent("\(prefix)_ICOLOR_FLOP.png")
 			try? colorImageFlopData.write(to: colorImageFlopFilename)
 		}

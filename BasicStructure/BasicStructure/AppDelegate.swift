@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 	
 	// Check it running in Simulator
-	#if (arch(i386) || arch(x86_64)) && os(iOS)
+	#if targetEnvironment(simulator)
 	var runningSimulator : Bool = true
 	#else
 	var runningSimulator : Bool = false
@@ -23,9 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
-		
-		// Override point for customization after application launch.
-		
 		// First and foremost, disable the screen locking.
 		
 		

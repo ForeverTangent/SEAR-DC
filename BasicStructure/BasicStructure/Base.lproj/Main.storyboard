@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xpi-bd-hWe">
-    <device id="retina4_7" orientation="landscape">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Xpi-bd-hWe">
+    <device id="retina4_7" orientation="landscape" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +11,7 @@
         <!--MainWindow-->
         <scene sceneID="2Sc-pg-PE5">
             <objects>
-                <viewController title="MainWindow" id="Xpi-bd-hWe" customClass="MainViewController" customModule="BasicStructure" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MainWindow" id="Xpi-bd-hWe" customClass="MainViewController" customModule="SEAR_DC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MKo-UO-SYj">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -45,13 +43,16 @@
                                                 <rect key="frame" x="191.5" y="0.0" width="435.5" height="297"/>
                                                 <subviews>
                                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oPa-dZ-97b" userLabel="Stair Info Picker View">
-                                                        <rect key="frame" x="0.0" y="0.0" width="287" height="297"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="320" height="297"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="320" id="d3P-9D-Lic"/>
+                                                        </constraints>
                                                     </pickerView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="20h-Is-3Bp">
-                                                        <rect key="frame" x="297" y="0.0" width="138.5" height="297"/>
+                                                        <rect key="frame" x="330" y="0.0" width="105.5" height="297"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4R-zf-u5Q" userLabel="Capture Button">
-                                                                <rect key="frame" x="8" y="100" width="122.5" height="97"/>
+                                                                <rect key="frame" x="8" y="100" width="89.5" height="97"/>
                                                                 <color key="backgroundColor" red="0.49024412340000001" green="1" blue="0.45226658159999999" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <state key="normal" title="Capture"/>
                                                                 <connections>
@@ -59,7 +60,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34K-YT-taS">
-                                                                <rect key="frame" x="100" y="8" width="30" height="30"/>
+                                                                <rect key="frame" x="67.5" y="8" width="30" height="30"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="KN1-db-lfn"/>
                                                                     <constraint firstAttribute="height" constant="30" id="dW0-2l-MMm"/>
@@ -99,7 +100,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="TOD-C1-KN2"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -131,7 +131,7 @@
         <!--ModalView-->
         <scene sceneID="SqM-bS-Qbu">
             <objects>
-                <viewController storyboardIdentifier="ModalView" title="ModalView" id="gnh-Yn-z0P" customClass="ModalViewController" customModule="BasicStructure" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ModalView" title="ModalView" id="gnh-Yn-z0P" customClass="ModalViewController" customModule="SEAR_DC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pak-m9-lnL">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
